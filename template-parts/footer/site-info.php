@@ -23,5 +23,5 @@
 		<?php echo get_theme_mod("miit_license", "MIIT License"); ?>
 	</a>
 	<br>
-	<?php echo apply_filters('homepage_test', "Home page");?>
+	<?php //echo apply_filters('homepage_test', "Home page");?>
 </div><!-- .site-info -->
