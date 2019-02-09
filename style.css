@@ -1,0 +1,88 @@
+/*
+Theme Name: Twenty Sevenfteen Child
+Description: A child theme of the Twenty seventeen default theme
+Author: Jay Wang
+Template: twentyseventeen
+Version: 1.0
+*/
+
+.single-featured-image-header img {
+	width: 100%;
+}
+
+.panel-content .wrap {
+	padding-top: 1em;
+}
+
+.page.page-one-column .entry-header, .twentyseventeen-front-page.page-one-column .entry-header, .archive.page-one-column:not(.has-sidebar) .page-header {
+	margin-bottom: 1em;
+}
+
+.page .panel-content .entry-title {
+	color: rgb(255, 0, 0);
+	font-size: 1.5rem;
+}
+
+.wrap-fullwidth {
+	max-width: 100%;
+	padding-left: 3em;
+	padding-right: 3em;
+}
+
+#primary-fullwidth {
+	width: 84%;
+	margin: 1rem auto;
+}
+
+@media screen and (min-width: 48em) {
+  .wrap {
+		max-width: 1440px; /* max-width: 1000px; */
+  }
+  
+	.has-sidebar:not(.error404) #primary {
+		width: 72%; /* width: 58%; */
+  }
+
+  .has-sidebar #secondary {
+		width: 22%; /* width: 36%; */
+	}
+}
+/*
+* Child widget begins
+*/
+.noThumb{
+  width:85px; 
+  height:45px; 
+  background-color:#000;
+  float:left; 
+  margin:0 12px 0 0;
+  
+}
+ul.child_widget {
+  margin-top:10px;
+  
+}
+ul.child_widget li {
+  margin:0 0 15px 0; 
+  list-style:none;
+  min-height:45px;
+  line-height:19px;
+  
+}
+ul.child_widget li img{
+  float:left;
+  margin:0 12px 0 0;
+  
+}
+ul.child_widget li a {
+  font-weight:bold;
+  
+}
+ul.child_widget li span {
+  display:block; 
+  font-size:11px;
+  
+}
+/*
+* Child widget ends
+*/
