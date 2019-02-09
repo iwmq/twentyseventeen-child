@@ -7,6 +7,8 @@ This is Jay Wang's enhanced theme based on the official Twentyseventeen theme.
 
 This child theme aims to give more flexible options.
 
+Please notice, this child theme is my own playground, and all changes are probably not suitable for other people's need.
+
 ## History
 
 **Version 0.1, Februry 9, 2019**
