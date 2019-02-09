@@ -210,12 +210,12 @@
             <div>
                 <label for="<?php echo $this->get_field_id('categoryOfListings'); ?>"><?php _e('Category of Listings:', 'twentyseventeen-child'); ?></label>
                 <?php wp_dropdown_categories( array(
-                    'id'      => $this->get_field_id('categoryOfListings'),
-                    'name'      => $this->get_field_name('categoryOfListings'),
+                    'id'            => $this->get_field_id('categoryOfListings'),
+                    'name'          => $this->get_field_name('categoryOfListings'),
                     'selected'      => $categoryOfListings,
                     'orderby'       => 'name',
                     'show_count'    => true,
-                    'hierarchical'  => true
+                    'hierarchical'  => true,
                 ) ); ?> 
            </div>
            
@@ -230,11 +230,11 @@
                 'post_type'        => 'post',
                 'posts_per_page'   => $numberOfListings,
                 'tax_query'        => array(
-                    array(
-                        'taxonomy'         => 'category',
-                        'terms'            => array($categoryOfListings),
-                        'field'            => 'id',
-                    ),
+                                        array(
+                                            'taxonomy'         => 'category',
+                                            'terms'            => array($categoryOfListings),
+                                            'field'            => 'id',
+                                        ),
                 ),
             );
             $listings = new WP_Query($args);
