@@ -1,13 +1,13 @@
 <?php
 
-	// Load parent theme's style
+    // Load parent theme's style
     function enqueue_parent_styles () {
         wp_enqueue_style("parent_style", get_template_directory_uri()."/style.css");
     }
 
     add_action("wp_enqueue_scripts", "enqueue_parent_styles");
 
-	// Disable DNS prefetch
+    // Disable DNS prefetch
     function twentyseventeen_disable_dns_prefetch ($hints, $relation_type) {
         if ( 'dns-prefetch' == $relation_type ) {
             return array_diff(wp_dependencies_unique_hosts(), $hints);
