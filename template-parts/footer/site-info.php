@@ -19,9 +19,7 @@
 		&copy;<?php echo get_theme_mod("site_credit", "Site Credit"); ?>
 	</a>
 	<span role="separator" aria-hidden="true"></span>
-	<a href="http://www.miitbeian.gov.cn/" class="miit">
-		<?php echo get_theme_mod("miit_license", "MIIT License"); ?>
+	<a href="/" class="additional-credit">
+		<?php echo get_theme_mod("additional-credit", "Additional Credit"); ?>
 	</a>
-	<br>
-	<?php //echo apply_filters('homepage_test', "Home page");?>
 </div><!-- .site-info -->

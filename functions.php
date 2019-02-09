@@ -40,27 +40,6 @@
     // Remove WordPress version from output pages
     remove_action("wp_head", "wp_generator");
 
-    // Test is_from_page and is_home
-    function my_homepage_test () {
-        $homepage_test = '';
-        if (is_front_page()) {
-           $homepage_test .= '<span>is_front_page: true</span>';
-       } else {
-            $homepage_test .= '<span>is_front_page: false</span>';  
-       }
-
-       $homepage_test .= '<span role="separator" aria-hidden="true"></span>';
-
-       if (is_home()) {
-            $homepage_test .= '<span>is_home: true</span>';
-        } else {
-            $homepage_test .= '<span>is_home: false</span>';  
-        }
-
-        return $homepage_test;
-    }
-    add_action("homepage_test", "my_homepage_test");
-
     function my_widgets_init() {
         register_sidebar(
             array(
@@ -112,31 +91,31 @@
         );
 
         /**
-         * Custom MIIT license.
+         * Aadditional Credit
          */
         $wp_customize->add_setting(
-            'miit_license', array(
-                'default'           => 'doge',
+            'additional_credit', array(
+                'default'           => 'All rights reserved',
                 'transport'         => 'postMessage',
-                'sanitize_callback' => 'my_sanitize_miit_license',
+                'sanitize_callback' => 'my_sanitize_additional_credit',
             )
         );
         
         $wp_customize->add_control(
-            'miit_license', array(
+            'additional_credit', array(
                 'type'     => 'text',
-                'label'    => __( 'MIIT License', 'twentyseventeen' ),
-                'description' => __('The MIIT license register number required in China', 'twentyseventeen'),
+                'label'    => __( 'Additional Credit', 'twentyseventeen' ),
+                'description' => __('Additional credit, used for the MIIT license register number required in China', 'twentyseventeen'),
                 'section'  => 'title_tagline',
                 'priority' => 56,
             )
         );
 
         $wp_customize->selective_refresh->add_partial(
-            'miit_license',
+            'additional_credit',
             array(
-                'selector'        => '.site-info a.miit',
-                'render_callback' => 'my_customize_partial_miit_license',
+                'selector'        => '.site-info a.additional-credit',
+                'render_callback' => 'my_customize_partial_additional_credit',
             )
         );
         
@@ -153,14 +132,14 @@
         echo get_theme_mod("site_credit", "Site Credit"); 
     }
 
-    // Sanitize MIIT License input
-    function my_sanitize_miit_license( $input ) {
+    // Sanitize additional credit input
+    function my_sanitize_additional_credit( $input ) {
         return esc_attr($input);
     }
 
-    // Render partial for MIIT license
-    function my_customize_partial_miit_license() {
-        echo get_theme_mod("miit_license", "MIIT License"); 
+    // Render partial for additional credit
+    function my_customize_partial_additional_credit() {
+        echo get_theme_mod("additional_credit", "Additional Credit"); 
     }
 
     // End more customization options
