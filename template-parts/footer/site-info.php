@@ -20,6 +20,6 @@
 	</a>
 	<span role="separator" aria-hidden="true"></span>
 	<a href="/" class="additional-credit">
-		<?php echo get_theme_mod("additional-credit", "Additional Credit"); ?>
+		<?php echo get_theme_mod("additional_credit", "Additional Credit"); ?>
 	</a>
 </div><!-- .site-info -->
