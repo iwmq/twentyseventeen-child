@@ -19,7 +19,6 @@
 	endif;
 	?>
 	<header class="entry-header">
-		<div class="breadcrumb"><?php get_breadcrumb(); ?></div>
 		<?php
 		if ( 'post' === get_post_type() ) {
 			echo '<div class="entry-meta">';
