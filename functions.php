@@ -256,6 +256,6 @@
             } 
         }
         
-    } //end class Child_Widget
+    } // End class Child_Widget
 
     register_widget('Child_Widget');
