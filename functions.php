@@ -3,6 +3,10 @@
     // Load parent theme's style
     function enqueue_parent_styles () {
         wp_enqueue_style("parent_style", get_template_directory_uri()."/style.css");
+        wp_enqueue_style("slick_style", get_stylesheet_directory_uri()."/assets/slick/slick.css");
+        wp_enqueue_style("slick_theme", get_stylesheet_directory_uri()."/assets/slick/slick-theme.css");
+        wp_enqueue_script("slick_js", get_stylesheet_directory_uri()."/assets/slick/slick.js", array(), "1.0.0", true);
+        wp_enqueue_script("slick_test", get_stylesheet_directory_uri()."/assets/slider.js", array("slick_js"), "1.0.0", true);
     }
 
     add_action("wp_enqueue_scripts", "enqueue_parent_styles");
@@ -118,7 +122,26 @@
                 'render_callback' => 'my_customize_partial_additional_credit',
             )
         );
-        
+
+        // Add a new panel for slides
+        $wp_customize->add_panel( 'slider', array(
+            'title' => __( 'Slider' ),
+            'description' => "A slider for picking up slides from pages", // Include html tags such as <p>.
+            'priority' => 160, // Mixed with top-level-section hierarchy.
+          ) );
+          $wp_customize->add_section( "slide_1" , array(
+            'title' => "slide 1",
+            'panel' => 'slider',
+          ) );
+          $wp_customize->add_control(
+            'slider_1', array(
+                'type'     => 'text',
+                'label'    => __( 'Additional Credit', 'twentyseventeen' ),
+                'description' => __('Additional credit, used for the MIIT license register number required in China', 'twentyseventeen'),
+                'section'  => 'title_tagline',
+                'priority' => 56,
+            )
+        );
     }
     add_action( 'customize_register', 'my_customize_register' );
 

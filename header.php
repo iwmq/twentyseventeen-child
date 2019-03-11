@@ -55,3 +55,4 @@
 
 	<div class="site-content-contain">
 		<div id="content" class="site-content">
+		<?php get_sidebar("slider"); ?>
