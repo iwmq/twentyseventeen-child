@@ -30,7 +30,7 @@
 	
     // Increse the number of front page panels
      function my_front_page_sections ($my_num_sections) {
-        return $my_num_sections + 5;
+        return $my_num_sections - 1;
     }
 
     add_filter("twentyseventeen_front_page_sections", "my_front_page_sections", 10, 1);
@@ -68,6 +68,7 @@
          */
         // $wp_customize->get_setting( 'site_credit' )->transport         = 'postMessage';
 
+		// Site credit
         $wp_customize->add_setting(
             'site_credit', array(
                 'default'           => 'Powered by WordPress',
@@ -122,27 +123,79 @@
                 'render_callback' => 'my_customize_partial_additional_credit',
             )
         );
-
-        // Add a new panel for slides
-        $wp_customize->add_panel( 'slider', array(
-            'title' => __( 'Slider' ),
-            'description' => "A slider for picking up slides from pages", // Include html tags such as <p>.
-            'priority' => 160, // Mixed with top-level-section hierarchy.
-          ) );
-          $wp_customize->add_section( "slide_1" , array(
-            'title' => "slide 1",
-            'panel' => 'slider',
-          ) );
-          $wp_customize->add_control(
-            'slider_1', array(
-                'type'     => 'text',
-                'label'    => __( 'Additional Credit', 'twentyseventeen' ),
-                'description' => __('Additional credit, used for the MIIT license register number required in China', 'twentyseventeen'),
-                'section'  => 'title_tagline',
-                'priority' => 56,
+		
+		// SEO keywords
+        $wp_customize->add_setting(
+            'seo_keywords', array(
+                'default'           => 'WordPress',
+                'transport'         => 'postMessage',
+                'sanitize_callback' => 'my_sanitize_seo_keywords',
             )
         );
+        
+        $wp_customize->add_control(
+            'seo_keywords', array(
+                'type'     => 'text',
+                'label'    => __( 'SEO keywords', 'twentyseventeen' ),
+                'description' => __('SEO keywords mainly for the frontpage, separated by comma', 'twentyseventeen'),
+                'section'  => 'title_tagline',
+                'priority' => 57,
+            )
+        );
+		
+		// SEO description
+        $wp_customize->add_setting(
+            'seo_description', array(
+                'default'           => 'A beautiful WordPress website',
+                'transport'         => 'postMessage',
+                'sanitize_callback' => 'my_sanitize_seo_description',
+            )
+        );
+        
+        $wp_customize->add_control(
+            'seo_description', array(
+                'type'     => 'text',
+                'label'    => __( 'SEO description', 'twentyseventeen' ),
+                'description' => __('SEO description mainly for the frontpage', 'twentyseventeen'),
+                'section'  => 'title_tagline',
+                'priority' => 58,
+            )
+        );
+		
+	// Create a setting and control for slides
+	for ( $i = 1; $i < 5; $i++ ) {
+		$wp_customize->add_setting(
+			'slide_' . $i,
+			array(
+				'default'           => false,
+				'sanitize_callback' => 'absint',
+				'transport'         => 'postMessage',
+			)
+		);
+
+		$wp_customize->add_control(
+			'slide_' . $i,
+			array(
+				/* translators: %d is the front page section number */
+				'label'           => sprintf( __( 'Front Page Slide %d Content', 'twentyseventeen' ), $i ),
+				'description'     => ( 1 !== $i ? '' : __( 'Select pages to feature in each area from the dropdowns. Add an image to a section by setting a featured image in the page editor. Empty sections will not be displayed.', 'twentyseventeen' ) ),
+				'section'         => 'theme_options',
+				'type'            => 'dropdown-pages',
+				'allow_addition'  => true,
+				'active_callback' => 'twentyseventeen_is_static_front_page',
+			)
+		);
+		$wp_customize->selective_refresh->add_partial(
+			'slide_' . $i,
+			array(
+				'selector'            => '#slide' . $i,
+				'render_callback'     => 'twentyseventeen_front_page_section',
+				'container_inclusive' => true,
+			)
+		);
     }
+    // END Create a setting and control for slides
+}
     add_action( 'customize_register', 'my_customize_register' );
 
     // Sanitize site credit input
@@ -165,6 +218,15 @@
         echo get_theme_mod("additional_credit", "Additional Credit"); 
     }
 
+	// Sanitize SEO keywords input
+    function my_sanitize_seo_keywords( $input ) {
+        return esc_attr($input);
+    }
+	
+	// Sanitize SEO description input
+    function my_sanitize_seo_description( $input ) {
+        return esc_attr($input);
+    }
     // End more customization options
     
     //custom widget

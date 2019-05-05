@@ -17,6 +17,35 @@
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- SEO begins -->
+<?php
+    if (is_front_page()) {
+        $keywords = get_theme_mod("seo_keywords", "WordPress");
+        $description = get_theme_mod("seo_description", "A beautiful website powered by WordPress");
+    } else {
+        if ($post->post_excerpt) {
+            $description = $post->post_excerpt;
+        } else {
+            $description = "This is the inner page";;
+        }
+
+        if (function_exists('is_product') and is_product()) { // Addd product tags if this page is a woocommerce product page
+            $product_tags = get_the_terms($product->ID, 'product_tag');
+            foreach ($product_tags as $product_tag) {
+                $keywords = $keywords . $product_tag->name . ', ';
+            }
+        } else { // Not a product page
+            $tags = wp_get_post_tags($post->ID);
+            foreach ($tags as $tag) {
+                $keywords = $keywords . $tag->name . ', ';
+            }
+        }
+        $keywords = $keywords . get_bloginfo('name');
+    }
+?>
+<meta name="keywords" content="<?php echo $keywords; ?>">
+<meta name="description" content="<?php echo $description; ?>">
+<!-- SEO ends -->
 <link rel="profile" href="http://gmpg.org/xfn/11">
 
 <?php wp_head(); ?>
