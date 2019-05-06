@@ -34,6 +34,31 @@ Version: 0.1
 	margin: 1rem auto;
 }
 
+#navigation-wrap {
+  float: left;
+  width: 60%;
+}
+
+#navigation-search {
+  width: 30%;
+  float: right;
+  margin-right: 0.5em;
+}
+
+#navigation-search .widget {
+  padding: 0;
+}
+
+#navigation-search input[type="search"] {
+  padding: 2px;
+}
+
+#navigation-search .icon-search {
+  height: 18px;
+  top: -10px;
+  width: 10px;
+}
+
 @media screen and (min-width: 48em) {
   .wrap {
 		max-width: 1440px; /* max-width: 1000px; */

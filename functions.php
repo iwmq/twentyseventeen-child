@@ -45,11 +45,25 @@
     remove_action("wp_head", "wp_generator");
 
     function my_widgets_init() {
+        // Register a sidebar area in the post page
         register_sidebar(
             array(
                 'name'          => __( 'Post Sidebar', 'twentyseventeen' ),
                 'id'            => 'sidebar-4',
                 'description'   => __( 'Add widgets here to appear in post pages.', 'twentyseventeen' ),
+                'before_widget' => '<section id="%1$s" class="widget %2$s">',
+                'after_widget'  => '</section>',
+                'before_title'  => '<h2 class="widget-title">',
+                'after_title'   => '</h2>',
+            )
+        );
+
+        // Register a sidebar area in the top navigation, for adding search form
+        register_sidebar(
+            array(
+                'name'          => __( 'Navigation Sidebar', 'twentyseventeen' ),
+                'id'            => 'sidebar-nav',
+                'description'   => __( 'Add widgets here to appear in top navigation.', 'twentyseventeen' ),
                 'before_widget' => '<section id="%1$s" class="widget %2$s">',
                 'after_widget'  => '</section>',
                 'before_title'  => '<h2 class="widget-title">',
