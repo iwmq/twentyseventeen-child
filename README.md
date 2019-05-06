@@ -14,7 +14,7 @@ Please notice, this child theme is my own playground, and all changes are probab
 **Version 0.2, May 6, 2019**
 * [Added] Add keywords and description meta tags for SEO enhancement
 
-[Adding Keywords and Description Meta Tags to Enhance WordPress SEO] (https://jaywang.info/adding-keywords-and-description-meta-tags-to-enhance-wordpress-seo/)
+[Adding Keywords and Description Meta Tags to Enhance WordPress SEO](https://jaywang.info/adding-keywords-and-description-meta-tags-to-enhance-wordpress-seo/)
 
 **Version 0.1, Februry 9, 2019**
 
