@@ -20,7 +20,7 @@
 <!-- SEO begins -->
 <?php
     if (is_front_page()) {
-        $keywords = get_theme_mod("seo_keywords", "WordPress");
+        $keywords = get_theme_mod("seo_keywords", "WordPress") . ", ";
         $description = get_theme_mod("seo_description", "A beautiful website powered by WordPress");
     } else {
         if ($post->post_excerpt) {
@@ -39,9 +39,19 @@
             foreach ($tags as $tag) {
                 $keywords = $keywords . $tag->name . ', ';
             }
-        }
-        $keywords = $keywords . get_bloginfo('name');
-    }
+		}
+		
+		if (is_category()) { // Check if it is a category page
+			$keywords = wp_strip_all_tags(get_term_meta(get_queried_object_id(), '_cat_keywords', true)) . ", ";
+			$description = wp_strip_all_tags(get_term_field('description', get_queried_object_id()));
+		}
+		
+		if (function_exists('is_product_category') and is_product_category()) { // Check if it is a product category page
+			$keywords = wp_strip_all_tags(get_term_meta(get_queried_object_id(), '_product_cat_keywords', true)) . ", ";
+			$description = wp_strip_all_tags(get_term_field('description', get_queried_object_id()));
+		}
+	}
+	$keywords = $keywords . get_bloginfo('name');
 ?>
 <meta name="keywords" content="<?php echo $keywords; ?>">
 <meta name="description" content="<?php echo $description; ?>">

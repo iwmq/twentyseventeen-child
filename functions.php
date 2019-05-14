@@ -358,3 +358,73 @@
     } // End class Child_Widget
 
     register_widget('Child_Widget');
+
+// Add keywords for category
+function add_cat_keywords(){
+    ?> 
+    <div class="form-field">
+        <label for="cat_keywords"><?php _e('Category Keywords', 'twentyseventeen'); ?></label>
+        <input type="text" name="cat_keywords" id="cat_keywords" value="<?php echo $cat_keywords; ?>" size="40">
+        <p><?php _e('Category Keywords for better SEO', 'twentyseventeen');; ?></p>
+    </div>
+    <?php
+}
+add_action ('category_add_form_fields', 'add_cat_keywords');
+
+function edit_cat_keywords($tag){
+    $cat_keywords = get_term_meta($tag->term_id, '_cat_keywords', true);
+    ?> 
+    <tr class="form-field">
+        <th scope="row" valign="top"><label for="cat_keywords"><?php _e('Category Keywords', 'twentyseventeen'); ?></label></th>
+        <td>
+            <input type="text" name="cat_keywords" id="cat_keywords" value="<?php echo $cat_keywords; ?>" size="40">
+            <p class="description"><?php _e('Category Keywords for better SEO', 'twentyseventeen'); ?></p>
+            <p class="term_id"><?php echo "tag term_id: " . $tag->term_id; ?></p>
+        </td>
+    </tr>
+    <?php
+
+}
+add_action ('category_edit_form_fields', 'edit_cat_keywords');
+
+function add_cat_keywords_success($term_id, $tt_id) {
+    if ( isset( $_POST['cat_keywords'] ) ) {
+        $cat_keywords = esc_attr($_POST['cat_keywords']);
+        add_term_meta($term_id, '_cat_keywords', $cat_keywords, true);
+    }
+}
+add_action ('create_category', 'add_cat_keywords_success', 10, 2); 
+
+function edit_cat_keywords_success($term_id, $tt_id) {
+    if ( isset( $_POST['cat_keywords'] ) ) {
+        $cat_keywords = esc_attr($_POST['cat_keywords']);
+        update_term_meta($term_id, '_cat_keywords', $cat_keywords);
+    }
+}
+add_action ('edited_category', 'edit_cat_keywords_success', 10, 2);
+// END Add keywords for category
+
+// Add keywords for product category
+function edit_product_cat_keywords($tag){
+    $cat_keywords = get_term_meta($tag->term_id, '_product_cat_keywords', true);
+    ?> 
+    <tr class="form-field">
+        <th scope="row" valign="top"><label for="cat_keywords"><?php _e('Product Category Keywords', 'twentyseventeen'); ?></label></th>
+        <td>
+            <input type="text" name="cat_keywords" id="cat_keywords" value="<?php echo $cat_keywords; ?>" size="40">
+            <p class="description"><?php _e('Product Category Keywords for better SEO', 'twentyseventeen'); ?></p>
+        </td>
+    </tr>
+    <?php
+
+}
+add_action ('product_cat_edit_form_fields', 'edit_product_cat_keywords');
+
+function edit_product_cat_keywords_success($term_id, $tt_id) {
+    if ( isset( $_POST['cat_keywords'] ) ) {
+        $cat_keywords = esc_attr($_POST['cat_keywords']);
+        update_term_meta($term_id, '_product_cat_keywords', $cat_keywords);
+    }
+}
+add_action ('edited_product_cat', 'edit_product_cat_keywords_success', 10, 2);
+// END Add keywords for product category

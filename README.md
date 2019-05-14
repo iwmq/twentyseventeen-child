@@ -11,6 +11,9 @@ Please notice, this child theme is my own playground, and all changes are probab
 
 ## History
 
+**Version 0.3, May 14, 2019**
+[Improved] Improve keywords and desciption meta tags to include category and product category pages
+
 **Version 0.2, May 6, 2019**
 * [Added] Add keywords and description meta tags for SEO enhancement, see [Adding Keywords and Description Meta Tags to Enhance WordPress SEO](https://jaywang.info/adding-keywords-and-description-meta-tags-to-enhance-wordpress-seo/)
 * [Added] Add a widget area in the top navigation for displaying an additional search form
