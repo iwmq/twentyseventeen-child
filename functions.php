@@ -35,12 +35,6 @@
 
     add_filter("twentyseventeen_front_page_sections", "my_front_page_sections", 10, 1);
 
-    // Add header meta description
-    function my_meta_description () {
-        echo '<meta name="description" content="This is my meta description" />'."\n";
-    }
-    add_action("wp_head", "my_meta_description");
-
     // Remove WordPress version from output pages
     remove_action("wp_head", "wp_generator");
 
@@ -243,6 +237,50 @@
     }
     // End more customization options
     
+    // Begin SEO tags
+    function  my_custom_header_tags() {
+        if (is_front_page()) {
+            $keywords = get_theme_mod("seo_keywords", "WordPress") . ", ";
+            $description = get_theme_mod("seo_description", "A beautiful website powered by WordPress");
+        } else {
+            if ($post->post_excerpt) {
+                $description = $post->post_excerpt;
+            } else {
+                $description = "This is the inner page";;
+            }
+    
+            if (function_exists('is_product') and is_product()) { // Addd product tags if this page is a woocommerce product page
+                $product_tags = get_the_terms($product->ID, 'product_tag');
+                foreach ($product_tags as $product_tag) {
+                    $keywords = $keywords . $product_tag->name . ', ';
+                }
+            } else { // Not a product page
+                $tags = wp_get_post_tags($post->ID);
+                foreach ($tags as $tag) {
+                    $keywords = $keywords . $tag->name . ', ';
+                }
+            }
+            
+            if (is_category()) { // Check if it is a category page
+                $keywords = wp_strip_all_tags(get_term_meta(get_queried_object_id(), '_cat_keywords', true)) . ", ";
+                $description = wp_strip_all_tags(get_term_field('description', get_queried_object_id()), true);
+            }
+            
+            if (function_exists('is_product_category') and is_product_category()) { // Check if it is a product category page
+                $keywords = wp_strip_all_tags(get_term_meta(get_queried_object_id(), '_product_cat_keywords', true)) . ", ";
+                $description = wp_strip_all_tags(get_term_field('description', get_queried_object_id()), true);
+            }
+        }
+        $keywords = $keywords . get_bloginfo('name');
+        ?>
+        <meta name="keywords" content="<?php echo $keywords; ?>">
+        <meta name="description" content="<?php echo $description; ?>">
+        <?php
+    }
+
+    add_action('wp_head', 'my_custom_header_tags', 200, 0);
+    // End SEO tags
+
     //custom widget
     class Child_Widget extends WP_Widget 
     {
