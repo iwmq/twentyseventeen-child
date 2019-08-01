@@ -204,7 +204,7 @@
     }
     // END Create a setting and control for slides
 }
-    add_action( 'customize_register', 'my_customize_register' );
+    add_action('customize_register', 'my_customize_register');
 
     // Sanitize site credit input
     function my_sanitize_site_credit( $input ) {
@@ -243,10 +243,24 @@
             $keywords = get_theme_mod("seo_keywords", "WordPress") . ", ";
             $description = get_theme_mod("seo_description", "A beautiful website powered by WordPress");
         } else {
+            global $post;
             if ($post->post_excerpt) {
                 $description = $post->post_excerpt;
             } else {
                 $description = "This is the inner page";;
+            }
+
+            if (is_page()) {
+                $tags = wp_get_post_terms($post->ID);
+                print_r($tags);
+                foreach ($tags as $tag) {
+                    $keywords = $keywords . $tag->name . ', ';
+                }
+            }
+
+            if (is_category()) { // Check if it is a category page
+                $keywords = wp_strip_all_tags(get_term_meta(get_queried_object_id(), '_cat_keywords', true)) . ", ";
+                $description = wp_strip_all_tags(get_term_field('description', get_queried_object_id()), true);
             }
     
             if (function_exists('is_product') and is_product()) { // Addd product tags if this page is a woocommerce product page
@@ -254,16 +268,6 @@
                 foreach ($product_tags as $product_tag) {
                     $keywords = $keywords . $product_tag->name . ', ';
                 }
-            } else { // Not a product page
-                $tags = wp_get_post_tags($post->ID);
-                foreach ($tags as $tag) {
-                    $keywords = $keywords . $tag->name . ', ';
-                }
-            }
-            
-            if (is_category()) { // Check if it is a category page
-                $keywords = wp_strip_all_tags(get_term_meta(get_queried_object_id(), '_cat_keywords', true)) . ", ";
-                $description = wp_strip_all_tags(get_term_field('description', get_queried_object_id()), true);
             }
             
             if (function_exists('is_product_category') and is_product_category()) { // Check if it is a product category page
@@ -466,3 +470,43 @@ function edit_product_cat_keywords_success($term_id, $tt_id) {
 }
 add_action ('edited_product_cat', 'edit_product_cat_keywords_success', 10, 2);
 // END Add keywords for product category
+
+// BENGIN Add post_tag to page
+function add_taxonomies() {
+	register_taxonomy(
+		'post_tag',
+		'page',
+		array(
+			'hierarchical'          => false,
+			'query_var'             => 'tag',
+			'rewrite'               => $rewrite['post_tag'],
+			'public'                => true,
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'_builtin'              => true,
+			'capabilities'          => array(
+				'manage_terms' => 'manage_post_tags',
+				'edit_terms'   => 'edit_post_tags',
+				'delete_terms' => 'delete_post_tags',
+				'assign_terms' => 'assign_post_tags',
+			),
+			'show_in_rest'          => true,
+			'rest_base'             => 'tags',
+			'rest_controller_class' => 'WP_REST_Terms_Controller',
+		)
+    );
+    
+    add_post_type_support( 'page', 'excerpt' );
+}
+add_action( 'init', 'add_taxonomies', 1);
+// END Add post_tag to page
+
+	// BEGIN Protect the login page
+	function xmag_login_protection(){
+		$security_key = "access";
+		$security_value = "accesscode";
+		if($_GET{$security_key} != $security_value) header('Location: https://google.com/');
+	}
+
+	#add_action('login_enqueue_scripts','xmag_login_protection');
+	// END Protect the login page
